@@ -232,11 +232,10 @@ function togglePause() {
   if (!paused) {
     lastTime = performance.now();
     loop(lastTime);
+    closePauseMenu();
   } else {
     cancelAnimationFrame(animId);
-    overlayTitle.textContent = 'PAUSA';
-    overlayScore.textContent = '';
-    overlay.classList.remove('hidden');
+    openPauseMenu();
   }
 }
 
@@ -260,10 +259,19 @@ function init() {
   board = createBoard();
   score = 0;
   lines = 0;
-  level = 1;
+  // Lectura inline (no delega en pause.js) porque init() se ejecuta de forma
+  // síncrona al cargar la página, antes de que pause.js termine de cargarse.
+  level = (() => {
+    try {
+      const stored = parseInt(localStorage.getItem('tetris.startLevel'), 10);
+      return (Number.isFinite(stored) && stored >= 1 && stored <= 15) ? stored : 1;
+    } catch (err) {
+      return 1;
+    }
+  })();
   paused = false;
   gameOver = false;
-  dropInterval = 1000;
+  dropInterval = Math.max(100, 1000 - (level - 1) * 90);
   dropAccum = 0;
   lastTime = performance.now();
   next = randomPiece();
@@ -275,8 +283,8 @@ function init() {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.code === 'KeyP') { togglePause(); return; }
-  if (paused || gameOver) return;
+  if (e.code === 'KeyP' || e.code === 'Escape') { togglePause(); return; }
+  if (paused || gameOver || pauseMenuOpen) return;
   switch (e.code) {
     case 'ArrowLeft':
       if (!collide(current.shape, current.x - 1, current.y)) current.x--;
