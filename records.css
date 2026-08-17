@@ -1,0 +1,209 @@
+/* ---- Utilidad genérica ---- */
+.hidden {
+  display: none !important;
+}
+
+/* ---- Pantalla de inicio ---- */
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 340px;
+  padding: 24px;
+  background: #1a1a25;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.records-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.records-heading {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #7aa2f7;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---- Tabla de records (compartida entre inicio y overlay) ---- */
+.records-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.records-table th,
+.records-table td {
+  padding: 6px 8px;
+  text-align: center;
+  border-bottom: 1px solid #2a2a3a;
+  color: #e0e0e0;
+  white-space: nowrap;
+}
+
+.records-table th {
+  color: #555570;
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.records-table td:nth-child(2) {
+  text-align: left;
+}
+
+.records-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.records-table tr.new-record td {
+  color: #e57373;
+  font-weight: 700;
+  animation: record-glow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes record-glow {
+  from {
+    background: rgba(229, 115, 115, 0.08);
+  }
+  to {
+    background: rgba(229, 115, 115, 0.22);
+  }
+}
+
+.records-empty {
+  text-align: center;
+  font-size: 12px;
+  color: #555570;
+  padding: 10px 0;
+}
+
+.records-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+}
+
+.records-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.records-stat .label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #555570;
+  font-weight: 600;
+}
+
+.records-stat .value {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: #7aa2f7;
+}
+
+#play-btn {
+  background: #7aa2f7;
+  color: #0f0f17;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#play-btn:hover {
+  background: #9bbdff;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #2a2a3a;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.secondary-btn:hover {
+  color: #e57373;
+  border-color: #e57373;
+}
+
+/* ---- Formulario de nuevo record (dentro del overlay) ---- */
+.new-record-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(229, 115, 115, 0.08);
+  border: 1px solid #e57373;
+  border-radius: 6px;
+  padding: 10px 14px;
+  width: 100%;
+}
+
+.new-record-form label {
+  font-size: 12px;
+  color: #e57373;
+  text-align: center;
+}
+
+.new-record-form input {
+  width: 100%;
+  background: #0f0f17;
+  border: 1px solid #2a2a3a;
+  border-radius: 4px;
+  color: #e0e0e0;
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.new-record-form input:focus {
+  outline: none;
+  border-color: #7aa2f7;
+}
+
+.new-record-form button {
+  background: #e57373;
+  color: #0f0f17;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.new-record-form button:hover {
+  background: #ef9a9a;
+}
+
+/* ---- Overlay: la tabla de records ocupa el ancho de la caja ---- */
+.overlay-box .records-table-wrap {
+  max-width: 280px;
+}
