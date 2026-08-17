@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tetris</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="skins.css" />
 </head>
 <body>
   <div class="wrapper">
@@ -41,6 +42,16 @@
             <li><kbd>P</kbd> pausa</li>
           </ul>
         </div>
+
+        <div class="panel-section skins-section">
+          <span class="label">SKIN</span>
+          <div class="skin-options">
+            <button type="button" class="skin-btn" data-skin="retro">Retro</button>
+            <button type="button" class="skin-btn" data-skin="neon">Neon</button>
+            <button type="button" class="skin-btn" data-skin="pastel">Pastel</button>
+            <button type="button" class="skin-btn" data-skin="pixel">Pixel Art</button>
+          </div>
+        </div>
       </aside>
     </div>
 
@@ -54,5 +65,6 @@
   </div>
 
   <script src="game.js"></script>
+  <script src="skins.js"></script>
 </body>
 </html>
