@@ -6,10 +6,31 @@
   <title>Tetris</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="pause.css" />
+  <link rel="stylesheet" href="records.css" />
 </head>
 <body>
   <div class="wrapper">
     <h1 class="game-title">TETRIS</h1>
+
+    <div id="start-screen" class="start-screen">
+      <div class="records-panel">
+        <h2 class="records-heading">TOP 5 RECORDS</h2>
+        <div id="start-scores-table" class="records-table-wrap"></div>
+        <div class="records-stats">
+          <div class="records-stat">
+            <span class="label">MEJOR COMBO</span>
+            <span class="value" id="start-best-combo">0</span>
+          </div>
+          <div class="records-stat">
+            <span class="label">LÍNEAS MÁX.</span>
+            <span class="value" id="start-max-lines">0</span>
+          </div>
+        </div>
+        <button id="reset-records-btn" class="secondary-btn">Resetear records</button>
+      </div>
+      <button id="play-btn">JUGAR</button>
+    </div>
+
     <div class="game-container">
       <canvas id="board" width="300" height="600"></canvas>
 
@@ -49,6 +70,12 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="overlay-new-record" class="new-record-form hidden">
+          <label for="player-name-input">¡Nuevo record! Introduce tu nombre:</label>
+          <input type="text" id="player-name-input" maxlength="12" placeholder="Jugador" autocomplete="off" />
+          <button id="save-record-btn">Guardar</button>
+        </div>
+        <div id="overlay-scores" class="records-table-wrap"></div>
         <button id="restart-btn">Reiniciar</button>
       </div>
     </div>
@@ -83,5 +110,6 @@
 
   <script src="game.js"></script>
   <script src="pause.js"></script>
+  <script src="records.js"></script>
 </body>
 </html>

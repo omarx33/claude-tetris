@@ -40,7 +40,11 @@ const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
 
-let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
+let board, current, next, score, lines, level, paused, lastTime, dropAccum, dropInterval, animId;
+let combo, maxCombo;
+// gameOver arranca en true para que el listener de teclado y togglePause()
+// no toquen `current`/`board` antes de que el usuario pulse JUGAR e init() los cree.
+let gameOver = true;
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
@@ -106,10 +110,16 @@ function clearLines() {
   if (cleared) {
     lines += cleared;
     score += (LINE_SCORES[cleared] || 0) * level;
+    combo++;
+    if (combo > maxCombo) maxCombo = combo;
+    score += 50 * combo * level;
     level = Math.floor(lines / 10) + 1;
     dropInterval = Math.max(100, 1000 - (level - 1) * 90);
-    updateHUD();
+  } else {
+    combo = 0;
   }
+  updateHUD();
+  return cleared;
 }
 
 function ghostY() {
@@ -154,6 +164,7 @@ function updateHUD() {
   scoreEl.textContent = score.toLocaleString();
   linesEl.textContent = lines;
   levelEl.textContent = level;
+  if (typeof updateComboDisplay === 'function') updateComboDisplay();
 }
 
 function drawBlock(context, x, y, colorIndex, size, alpha) {
@@ -224,6 +235,9 @@ function endGame() {
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
   overlay.classList.remove('hidden');
+  if (typeof handleGameOver === 'function') {
+    handleGameOver({ score, lines, level, maxCombo });
+  }
 }
 
 function togglePause() {
@@ -269,6 +283,8 @@ function init() {
       return 1;
     }
   })();
+  combo = 0;
+  maxCombo = 0;
   paused = false;
   gameOver = false;
   dropInterval = Math.max(100, 1000 - (level - 1) * 90);
@@ -278,6 +294,7 @@ function init() {
   spawn();
   updateHUD();
   overlay.classList.add('hidden');
+  if (typeof resetOverlayRecordsUI === 'function') resetOverlayRecordsUI();
   cancelAnimationFrame(animId);
   animId = requestAnimationFrame(loop);
 }
@@ -308,5 +325,3 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
-
-init();
